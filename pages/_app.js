@@ -2,15 +2,17 @@
 import React, { Suspense } from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import { QueryRenderer } from 'react-relay';
+import { RelayEnvironmentProvider, QueryRenderer } from 'react-relay';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
 import type { NextComponentType, NextPageContext } from 'next/next-server/lib/utils';
 
 import theme from '../lib/theme';
-import { initEnvironment, createEnvironment } from '../lib/createEnvironment';
+import { createRelayEnvironment } from '../lib/createRelayEnvironment';
 import MainContainer from '../components/MainContainer';
+import MainLoader from '../components/MainLoading';
+import MainError from '../components/MainError';
 
 if (!Intl.PluralRules) {
   /* eslint-disable global-require */
@@ -88,51 +90,54 @@ export default class MyApp extends App<InitialProps> {
       cache,
     );
 
-    if (!Component.query) {
-      return <Component {...pageProps} locale={locale} />
-    }
-
-    const environment = createEnvironment(
-      {
-        relayData,
-        records,
-      },
-    );
+    const relayEnvironment = createRelayEnvironment(pageProps);
 
     return (
       <RawIntlProvider value={intl}>
+        <RelayEnvironmentProvider environment={relayEnvironment}>
+        
         <Head>
           <meta charSet="utf-8" />
           <title>Products</title>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-          />
-        </Head>
+          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"/>
+       </Head>
+
         <ThemeProvider theme={theme}>
+
+
+        <MainContainer>
           <CssBaseline />
-          <QueryRenderer
-            environment={environment}
-            query={Component.query}
-            variables={pageProps.variables}
-            render={(params) => {
-              const { error, props } = params;
-              if (props && props.viewer) {
+            {!Component.query ? (
+                <Component {...pageProps} locale={locale} />
+              ) : (
+              <QueryRenderer
+                environment={relayEnvironment}
+                query={Component.query}
+                variables={pageProps.variables}
+                render={(params) => {
+                  const { error, props } = params;
+                  if (props && props.viewer) {
 
-                return (
-                  <Suspense fallback={null}>
-                    <Component {...pageProps} environment={environment} {...props} locale={locale} />
-                  </Suspense>
-                );
-              }
-
-              if (error) {
-                return "Error!";
-              }
-              return "Loading...";
-            }}
-          />
+                    return (
+                      <Suspense fallback={null}>
+                        <Component 
+                          {...pageProps} 
+                          environment={relayEnvironment} 
+                          {...props} 
+                          locale={locale} 
+                        />
+                      </Suspense>
+                    );
+                  }
+                  if (error) return <MainError/>
+                  return <MainLoader/>;
+                }}
+              />
+              )}
+          </MainContainer>
         </ThemeProvider>
+
+        </RelayEnvironmentProvider>
       </RawIntlProvider>
     );
   }

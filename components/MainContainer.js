@@ -1,12 +1,13 @@
 // @flow strict
+import { memo } from 'react';
 import {
-  memo, useCallback, useState, useEffect,
-} from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+  Container,
+  AppBar,
+  Toolbar,
+  IconButton,
+} from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 
-import Container from '@material-ui/core/Container';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
 type Props = {
   +children: React$Node,
@@ -15,9 +16,11 @@ type Props = {
 const MainContainer = ({ children }: Props): React$Node => {
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          Header
+      <AppBar position="sticky">
+        <Toolbar >
+          <IconButton  href='/'>
+            <HomeIcon fontSize='large'/>
+          </IconButton>
         </Toolbar>
       </AppBar>
 

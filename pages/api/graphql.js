@@ -1,30 +1,40 @@
 // @flow
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { graphqlHTTP } from 'express-graphql';
-// $FlowFixMe[cannot-resolve-module]
-import schemaString from './mock.graphql';
-import * as products from './products';
 
+// $FlowFixMe[cannot-resolve-module]
+import  typeDefs  from './schema.graphql';
+import * as products from './products/index.js';
+
+
+// Viewer
 const viewer = {
   me: () => ({
     id: 9287364982716489723,
-    name: 'Ernest',
-    surname: 'Thompson',
-    companyName: 'Test company, S.R.L.',
-    role: 'ADMIN',
-    createdAt: '2019-11-08T06:50:17.449Z',
+    name: 'James',
+    surname: 'Bond',
+    companyName: 'Agency 007',
+    role: 'SPY',
+    createdAt: '2024-12-31T00:00:00Z',
   }),
   products: () => products.get(),
 };
 
+// Resolvers
 const resolvers = {
   Query: {
     viewer: () => viewer,
   },
-}
+  Mutation: {
+    addProduct: (_, { input }) => products.add(input),
+    updateProduct: (_, { id, edits }) => products.update(id, edits),
+  }
+};
 
-const schema = makeExecutableSchema({ typeDefs: schemaString, resolvers });
+// schema
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
+// handler
 const handler =  (req: NextApiRequest, res: NextApiResponse<any>) => {
   return graphqlHTTP({
     schema,

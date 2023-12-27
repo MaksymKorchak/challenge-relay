@@ -8,8 +8,8 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-export type pages_indexQueryVariables = {||};
-export type pages_indexQueryResponse = {|
+export type Id_ProductsQueryVariables = {||};
+export type Id_ProductsQueryResponse = {|
   +viewer: {|
     +products: $ReadOnlyArray<{|
       +id: string,
@@ -21,15 +21,15 @@ export type pages_indexQueryResponse = {|
     |}>
   |}
 |};
-export type pages_indexQuery = {|
-  variables: pages_indexQueryVariables,
-  response: pages_indexQueryResponse,
+export type Id_ProductsQuery = {|
+  variables: Id_ProductsQueryVariables,
+  response: Id_ProductsQueryResponse,
 |};
 */
 
 
 /*
-query pages_indexQuery {
+query Id_ProductsQuery {
   viewer {
     products {
       id
@@ -115,7 +115,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "pages_indexQuery",
+    "name": "Id_ProductsQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -124,20 +124,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "pages_indexQuery",
+    "name": "Id_ProductsQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "c9b7c57df2ed51dc939b1022626516b8",
+    "cacheID": "55b047576957f9444a3f8113f945c4ed",
     "id": null,
     "metadata": {},
-    "name": "pages_indexQuery",
+    "name": "Id_ProductsQuery",
     "operationKind": "query",
-    "text": "query pages_indexQuery {\n  viewer {\n    products {\n      id\n      name\n      description\n      price\n      category\n      createdAt\n    }\n  }\n}\n"
+    "text": "query Id_ProductsQuery {\n  viewer {\n    products {\n      id\n      name\n      description\n      price\n      category\n      createdAt\n    }\n  }\n}\n"
   }
 };
 })();
 // prettier-ignore
-(node/*: any*/).hash = '077283366c7d915ca456a3589fb7f0ec';
+(node/*: any*/).hash = '1211b09b33e1d9133489e64908748951';
 
 module.exports = node;

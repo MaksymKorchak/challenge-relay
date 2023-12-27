@@ -1,0 +1,59 @@
+  # User access role
+  enum Role {
+    ADMIN
+    OPERATOR
+  }
+
+  # Current user
+  type User {
+    id: ID!
+    name: String!
+    surname: String!
+    companyName: String!
+    role: Role!
+    createdAt: String!
+  }
+
+  # Product
+  type Product {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
+    createdAt: String!
+  }
+
+  # Viewer
+  type Viewer {
+    me: User!
+    products: [Product!]!
+  }
+
+  # Query
+  type Query {
+    viewer: Viewer!
+  }
+
+  # Mutation
+  type Mutation {
+    addProduct (input: AddProductInput!): Product!
+    updateProduct(id: ID!, edits: EditProductInput!): Product!
+  }
+
+  # Add Product input
+  input AddProductInput {
+    name: String!
+    description: String!
+    category: String!
+    price: Float!
+  }
+
+  # Edit Product input
+  input EditProductInput {
+    name: String
+    description: String
+    category: String
+    price: Float
+    createdAt: String
+  }
