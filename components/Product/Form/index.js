@@ -9,7 +9,7 @@ import {
 
 type ProductFormProps  = {
     handleSubmit?: () => void;
-    initialValues?: object | null;
+    initialValues?: Object | null;
 };
 
 type ProductValues = {
@@ -67,6 +67,7 @@ type ProductValues = {
                         required
                         margin="normal"
                         style={{width: '100%'}}
+                        inputProps={{'data-testid': 'name-input'}}
                         {...input}
                         />
                         {meta.error && meta.touched && (
@@ -92,6 +93,7 @@ type ProductValues = {
                             minRows={1}
                             maxRows={5}
                             style={{width: '100%'}}
+                            inputProps={{'data-testid': 'description-input'}}
                             {...input}
                         />
                         {meta.error && meta.touched && (
@@ -107,13 +109,14 @@ type ProductValues = {
                     {({ input, meta }) => (
                     <>
                         <TextField 
-                            id="caregory" 
+                            id="category" 
                             label="Category" 
                             variant="standard" 
                             error={meta.error && meta.touched}
                             required
                             margin="normal"
                             style={{width: '100%'}}
+                            inputProps={{'data-testid': 'category-input'}}
                             {...input}
                         />
                         {meta.error && meta.touched && (
@@ -137,6 +140,7 @@ type ProductValues = {
                             required
                             margin="normal"
                             style={{width: '100%'}}
+                            inputProps={{'data-testid': 'price-input'}}
                             {...input}
                         />
                         {meta.error && meta.touched && (
@@ -154,7 +158,8 @@ type ProductValues = {
                         size='large'
                         variant='outlined'
                         aria-label="submit"
-                        color='secondary'>
+                        color='secondary'
+                        data-testid="cancel-button">
                         Cancel
                     </Button>
                     <Button
@@ -163,7 +168,8 @@ type ProductValues = {
                         variant='outlined'
                         aria-label="submit"
                         color='primary'
-                        disabled={!valid}>
+                        disabled={!valid}
+                        data-testid="submit-button">
                         Submit
                     </Button>
                 </CardActions>

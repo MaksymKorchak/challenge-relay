@@ -43,7 +43,7 @@ function CreateProductForm() {
           router.push({ pathname: '/' });
         },
         onError(error) {
-          console.error(error);
+          console.log(error);
         },
     });
     } catch (error) {
